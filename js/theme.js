@@ -300,13 +300,16 @@ var submit = $('#submit-btn'); // submit button
 form.on('submit', function (e) {
 	e.preventDefault(); // prevent default form submit
 
+	var $input = $(this).find("input[name=_subject]");
+    $input.val("Contact Form Submission - " + $(this).find("input[name=name]").val());
+
 	if (typeof $('#google-recaptcha-v3').val() != "undefined") {
 		grecaptcha.ready(function () {
 			var site_key = $('#google-recaptcha-v3').attr('src').split("render=")[1];
 			grecaptcha.execute(site_key, {action: 'contact'}).then(function (token) {
 				var gdata = form.serialize() + '&g-recaptcha-response=' + token;
 				$.ajax({
-					url: 'php/mail.php',  // form action url
+					url: 'https://formspree.io/f/meqwgpra',  // form action url
 					type: 'POST', 		  // form submit method get/post
 					dataType: 'json', 	  // request type html/json/xml
 					data: gdata, 		  // serialize form data
@@ -339,7 +342,7 @@ form.on('submit', function (e) {
 		});
 	} else {
 		$.ajax({
-			url: 'php/mail.php', // form action url
+			url: 'https://formspree.io/f/meqwgpra', // form action url
 			type: 'POST', // form submit method get/post
 			dataType: 'json', // request type html/json/xml
 			data: form.serialize(), // serialize form data
